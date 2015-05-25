@@ -46,7 +46,8 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\scripts\CreateFruits.cs" />
+     <Compile Include="Assets\CreateFruits.cs" />
+     <Compile Include="Assets\scripts\CreateFruits2.cs" />
      <Compile Include="Assets\scripts\clickButton.cs" />
      <Compile Include="Assets\scripts\sampleTest.cs" />
  <Reference Include="UnityEngine.UI">

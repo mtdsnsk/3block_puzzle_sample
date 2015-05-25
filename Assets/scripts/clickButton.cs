@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class clickButton : MonoBehaviour {
@@ -8,8 +9,8 @@ public class clickButton : MonoBehaviour {
 
 	public void ClickTest () {
 
-		Debug.Log ("Clicked.");
-		Instantiate (obj, new Vector3 (0, 0, 0), Quaternion.identity);
-		Destroy(button);
+		obj.SetActive (true);
+		Destroy (button);
+
 	}
 }
