@@ -1,0 +1,99 @@
+-debug
+-target:library
+-nowarn:0169
+-out:'Temp/Assembly-CSharp.dll'
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/WebPlayer/Managed/UnityEngine.dll'
+-r:'/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll'
+-define:UNITY_5_0_1
+-define:UNITY_5_0
+-define:UNITY_5
+-define:ENABLE_LICENSE_RENAME
+-define:ENABLE_NEW_BUGREPORTER
+-define:ENABLE_2D_PHYSICS
+-define:ENABLE_4_6_FEATURES
+-define:ENABLE_AUDIO
+-define:ENABLE_CACHING
+-define:ENABLE_CLOTH
+-define:ENABLE_DUCK_TYPING
+-define:ENABLE_FRAME_DEBUGGER
+-define:ENABLE_GENERICS
+-define:ENABLE_HOME_SCREEN
+-define:ENABLE_IMAGEEFFECTS
+-define:ENABLE_LIGHT_PROBES_LEGACY
+-define:ENABLE_MICROPHONE
+-define:ENABLE_MULTIPLE_DISPLAYS
+-define:ENABLE_NEW_HIERARCHY
+-define:ENABLE_PHYSICS
+-define:ENABLE_PHYSICS_PHYSX3
+-define:ENABLE_PLUGIN_INSPECTOR
+-define:ENABLE_SHADOWS
+-define:ENABLE_SINGLE_INSTANCE_BUILD_SETTING
+-define:ENABLE_SPRITES
+-define:ENABLE_TERRAIN
+-define:ENABLE_UNITYEVENTS
+-define:ENABLE_WEBCAM
+-define:ENABLE_WWW
+-define:ENABLE_AUDIOMIXER_SUSPEND
+-define:ENABLE_NONPRO
+-define:INCLUDE_DYNAMIC_GI
+-define:INCLUDE_GI
+-define:INCLUDE_IL2CPP
+-define:PLATFORM_SUPPORTS_MONO
+-define:RENDER_SOFTWARE_CURSOR
+-define:UNITY_WEBPLAYER
+-define:ENABLE_SUBSTANCE
+-define:WEBPLUG
+-define:ENABLE_TEXTUREID_MAP
+-define:ENABLE_RUNTIME_GI
+-define:ENABLE_MOVIES
+-define:ENABLE_NETWORK
+-define:ENABLE_MONO
+'Assets/100 Best Effect Pack/Script/csAnimationPlay.cs'
+'Assets/100 Best Effect Pack/Script/csLightIntancityControl.cs'
+'Assets/100 Best Effect Pack/Script/csPrefebMake.cs'
+'Assets/100 Best Effect Pack/ShurikenEffectEditor/csShurikenEffectChanger.cs'
+'Assets/100 Best Effect Pack/ShurikenEffectEditor/csShurikenEffectEditor.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/Antialiasing.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/Bloom.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/BloomAndFlares.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/BloomOptimized.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/Blur.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/BlurOptimized.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/CameraMotionBlur.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/ColorCorrectionCurves.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/ColorCorrectionLookup.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/ColorCorrectionRamp.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/ContrastEnhance.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/ContrastStretch.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/CreaseShading.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/DepthOfField.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/DepthOfFieldDeprecated.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/EdgeDetection.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/Fisheye.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/GlobalFog.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/Grayscale.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/ImageEffectBase.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/ImageEffects.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/MotionBlur.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/NoiseAndGrain.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/NoiseAndScratches.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/PostEffectsBase.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/PostEffectsHelper.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/Quads.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/ScreenOverlay.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/ScreenSpaceAmbientObscurance.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/ScreenSpaceAmbientOcclusion.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/SepiaTone.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/SunShafts.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/TiltShift.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/Tonemapping.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/Triangles.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/Twirl.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/VignetteAndChromaticAberration.cs'
+'Assets/100 Best Effect Pack/Standard Assets/Effects/ImageEffects/Scripts/Vortex.cs'
+'Assets/CreateFruits.cs'
+'Assets/SimpleParticlePack/Scripts/ParticleTester.cs'
+'Assets/particle.cs'
+'Assets/scripts/CreateFruits2.cs'
+'Assets/scripts/clickButton.cs'
+'Assets/scripts/sampleTest.cs'

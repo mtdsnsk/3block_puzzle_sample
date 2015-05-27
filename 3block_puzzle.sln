@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{B6C49AD0-C434-6FEC-535D-A5DBC2E8A1A1}") = "3block_puzzle", "Assembly-CSharp.csproj", "{B705B358-91D9-3E1E-6BD7-39407F4B102D}"
 EndProject
+Project("{B6C49AD0-C434-6FEC-535D-A5DBC2E8A1A1}") = "3block_puzzle", "Assembly-CSharp-Editor.csproj", "{2138F330-164E-D257-E028-78675649A260}"
+EndProject
+Project("{B6C49AD0-C434-6FEC-535D-A5DBC2E8A1A1}") = "3block_puzzle", "Assembly-UnityScript.unityproj", "{75D81932-5633-20F7-58AB-968F4C39336E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +17,19 @@ Global
 		{B705B358-91D9-3E1E-6BD7-39407F4B102D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B705B358-91D9-3E1E-6BD7-39407F4B102D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B705B358-91D9-3E1E-6BD7-39407F4B102D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2138F330-164E-D257-E028-78675649A260}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2138F330-164E-D257-E028-78675649A260}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2138F330-164E-D257-E028-78675649A260}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2138F330-164E-D257-E028-78675649A260}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75D81932-5633-20F7-58AB-968F4C39336E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75D81932-5633-20F7-58AB-968F4C39336E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75D81932-5633-20F7-58AB-968F4C39336E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75D81932-5633-20F7-58AB-968F4C39336E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																GlobalSection(MonoDevelopProperties) = preSolution
+																										GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

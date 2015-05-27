@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Sprites;
 using UnityEngine.UI;
+
 using System.Collections;
 using System.Collections.Generic;
 
@@ -12,40 +13,53 @@ public class CreateFruits : MonoBehaviour
 	public List<GameObject> fruitsObjectList = new List<GameObject> ();
 	// 生成するプレファブのリスト
 	public List<GameObject> specialObjectList = new List<GameObject> ();
+	// 生
+	public List<GameObject> chainObjectList = new List<GameObject> ();
+
 	// ブロック同士をつなぐ線を描画する
 	public LineRenderer line;
-	//
-	private float gameTimer;
+	// 効果エフェクト
+	public GameObject effect1;
+	public GameObject effect2;
+	// スタートボタン
+	public GameObject button;
+
+	// タイマー
+	public float gameTimer;
 	public Text gameTimerText;
+	// スコア
 	private int gameScore;
 	public Text gameScoreText;
+
+	static int fruitsListNum = 4;
+	static float chainDistance = 3.0f;
 
 	// 全てのGameObjectのリスト
 	private List<GameObject> objectList = new List<GameObject> ();
 	// 削除するGameObjectのリスト
 	private List<GameObject> removableObjectList = new List<GameObject> ();
 	// 現在選択中のGameObject
-	private string currentObjectName;  // name
+	private GameObject chainObj; // chain
 	private GameObject firstObject; // first
 	private GameObject lastObject; // last
 	private GameObject currentObject; // current
 	private float fruits_distance; //  distance
 
-	IEnumerator LateStart (float time)
-	{
-		yield return new WaitForSeconds (time);
-		//遅れて初期化処理
-	}
-
+//	IEnumerator LateStart (float time)
+//	{
+//		yield return new WaitForSeconds (time);
+//		//遅れて初期化処理
+//	}
+	
 	// 開始
 	void Start ()
 	{
-		gameTimer = 30.0f;
+		gameTimer =  60.0f;
 		gameScore = 0;
 
-		DropBall (45); //フルーツを指定した数上から降らせる
+		DropBall (40); //フルーツを指定した数上から降らせる
 
-		StartCoroutine (LateStart (0.1F));
+//		StartCoroutine (LateStart (0.1F));
 	}
 
 	public void createFruits ()
@@ -58,7 +72,7 @@ public class CreateFruits : MonoBehaviour
 	{
 		for (var i = 0; i < count; i++) {
 			// リストの中から一つをランダムで選択する
-			GameObject fruits = fruitsObjectList [Random.Range (0, fruitsObjectList.Count - 1)];
+			GameObject fruits = fruitsObjectList [Random.Range (0, fruitsListNum)];
 			float pos_x = Random.Range (-2.5f, 2.5f);
 			float pos_y = Random.Range (8.8f, 10.2f);
 			// 生成する
@@ -86,50 +100,93 @@ public class CreateFruits : MonoBehaviour
 		} else if (firstObject != null) {
 			//ボールをドラッグしている途中
 			OnDragging ();
+			//calc_chain (currentObject);
 		}
 
 		if (Input.GetKeyDown ("space")) {
 			addForce ();
 		}
 
-		drawLineBetweenObject ();
+		drawLineBetweenObject (); // 繋げたブロック同士を線で結ぶ
 
 		gameTimer -= Time.deltaTime;
-		gameTimerText.text = gameTimer.ToString ();
+		gameTimerText.text = Mathf.FloorToInt(gameTimer).ToString ();
 
 		if (0.0f >= gameTimer) {
 			// タイマーが終わった時の処理
 			isPaused = true;
 			gameTimerText.text = "Game Over";
-			// 必要があればタイマー再びセット
-			//timer = 30.f;
+			// スタートボタンをアクティブに
+			button.SetActive (true);
 		}
 
 	}
 
 	void OnDragStart ()
 	{
-		// クリックした時の処理
-		if (Input.GetMouseButtonDown (0)) {
-			// クリックした位置のオブジェクトを取得する
-			GameObject obj = GetCurrentHitObject ();
-			if (obj != null) {
-				// 最初に選択したオブジェクトを保持
-				firstObject = obj; 
-				fruits_distance = obj.GetComponent<SpriteRenderer> ().bounds.size.x * 1.05f;
-				Debug.Log ("float:" + fruits_distance);
-				currentObjectName = firstObject.name;
-				// リストに追加
-				PushToList (obj);
+		// クリックした位置のオブジェクトを取得する
+		GameObject obj = GetCurrentHitObject ();
+		if (obj != null) {
 
-				// 対象のもの以外のカラーを変更
-//				foreach( GameObject mObj in objectList){
-//					if(mObj.name != currentObjectName){
-//						//colorChange(mObj);
-//					}
-//				}
+			//Debug.Log("name:" + obj.name);
+			if(obj.name.Contains("candy6")){
+				special1 (obj) ;
+				return;
+			}
+
+			if(obj.name.Contains("candy9")){
+				special1 (obj) ;
+				return;
+			}
+
+			if(obj.name.Contains("candy10")){
+				special1 (obj) ;
+				return;
+			}
+
+			// 最初に選択したオブジェクトを保持
+			firstObject = obj; 
+			fruits_distance = obj.GetComponent<CircleCollider2D> ().radius  * obj.transform.localScale.x * chainDistance;
+			// リストに追加
+			PushToList (obj);
+		}
+	}
+
+	void special1 (GameObject spObj) 
+	{
+		// 
+		float radius = spObj.GetComponent<CircleCollider2D> ().radius * spObj.transform.localScale.x * 3.0f;
+		//
+		removableObjectList.Add (spObj);
+		//
+		foreach(GameObject obj in objectList){
+			// 距離
+			float dist = Vector2.Distance (spObj.transform.position, obj.transform.position);
+			if (dist <= radius) {
+				// candyは消さない
+				if(obj.name.Contains("candy")){
+					continue;
+				}
+				//距離が一定値以下のとき
+				removableObjectList.Add (obj);
 			}
 		}
+
+		// 全部削除
+		foreach (GameObject obj in removableObjectList) {
+			objectList.Remove (obj);
+			Destroy (obj);
+		}
+
+		// effect
+		GameObject effect = (GameObject)Instantiate(effect1.gameObject, spObj.transform.position, Quaternion.identity);
+		Destroy (effect, 1.0f);
+
+		// 削除した分を追加する
+		DropBall (removableObjectList.Count);
+
+		// リセット
+		reset ();
 	}
 
 	void colorChange (GameObject obj)
@@ -151,15 +208,24 @@ public class CreateFruits : MonoBehaviour
 			// 全部削除
 			foreach (GameObject obj in removableObjectList) {
 				// 削除
+				//obj.transform.position.z = -5.0f;
+				GameObject effect = (GameObject)Instantiate (
+					effect2, 
+					new Vector3(obj.transform.position.x, obj.transform.position.y, -5.0f), 
+					Quaternion.identity);
+				Destroy (effect, 1.0f);
 				objectList.Remove (obj);
 				Destroy (obj);
 			}
 
-			if (removableObjectList.Count >= 7) {
+			Vector3 pos = new Vector3 (lastObject.transform.position.x, lastObject.transform.position.y, 0);
+			int pattern = Random.Range (0, specialObjectList.Count - 1);
+
+			if (removableObjectList.Count >= 6) {
 				// スペシャルを追加
-				GameObject spObj = (GameObject)Instantiate 
-					(specialObjectList [0], new Vector3 (lastObject.transform.position.x, lastObject.transform.position.y, 0), Quaternion.identity);
+				GameObject spObj = (GameObject)Instantiate (specialObjectList [pattern], pos, Quaternion.identity);
 				objectList.Add (spObj);
+
 				// 削除した分を追加する
 				DropBall (removableObjectList.Count - 1);
 			} else {
@@ -174,10 +240,16 @@ public class CreateFruits : MonoBehaviour
 //			}
 		}
 
+		//
+		reset ();
+	}
+
+	void reset () 
+	{
 		// score
 		gameScore += 100 * fib (removableObjectList.Count);
 		gameScoreText.text = gameScore.ToString ();
-
+		
 		// nullをセット
 		firstObject = null;
 		lastObject = null;
@@ -186,6 +258,9 @@ public class CreateFruits : MonoBehaviour
 		colorReset ();
 		line.SetVertexCount (0);
 		removableObjectList = new List<GameObject> ();
+		
+		// 下方向へ力を加える
+		addDownForce ();
 	}
 
 	//
@@ -208,12 +283,7 @@ public class CreateFruits : MonoBehaviour
 			f0 = f1;
 			f1 = f2;
 		}
-
-//		for(int i=0;i<n;i++){
-//			kekka += i;
-//			Debug.Log ("fib:" + kekka);
-//		}
-		 
+				 
 		return f2;
 	}
 
@@ -239,6 +309,41 @@ public class CreateFruits : MonoBehaviour
 			if (dist <= fruits_distance) {
 				//ボール間の距離が一定値以下のとき
 				PushToList (currentObject); //消去するリストにボールを追加
+				chainObjectList = new List<GameObject> ();
+			}
+		}
+	}
+
+	//
+	void calc_chain(GameObject chainBlock){
+
+		if (chainObjectList.Contains (chainBlock)){
+			return; // 追加済み
+		}
+
+		//
+		foreach(GameObject obj in objectList){
+
+			//
+			if (chainObjectList.Contains (obj)){
+				//continue; // 追加済み
+			}
+
+			//
+			if (firstObject.name != obj.name){
+				Debug.Log("一致しない chain:" + chainBlock.name + " " + obj.name);
+				continue; // 一致しない
+			}
+
+			// 距離
+			float dist = Vector2.Distance (chainBlock.transform.position, obj.transform.position);
+			if (dist <= fruits_distance) {
+				//ボール間の距離が一定値以下のとき
+				obj.GetComponent<SpriteRenderer> ().color = new Color (0.9f, 1.0f, 0, 1.0f);
+				// 追加
+				chainObjectList.Add(obj);
+				//
+				calc_chain(obj);
 			}
 		}
 	}
@@ -270,6 +375,7 @@ public class CreateFruits : MonoBehaviour
 		removableObjectList.Add (obj);
 	}
 
+	// 線を描画する
 	void drawLineBetweenObject ()
 	{
 		//
@@ -286,10 +392,19 @@ public class CreateFruits : MonoBehaviour
 	{
 		foreach (GameObject obj in objectList) {
 			Rigidbody2D rb = obj.GetComponent<Rigidbody2D> ();
-			//rb.AddForce(Vector2.up * 200);
 			float power_x = Random.Range (-15.0f, 15.0f);
 			float power_y = Random.Range (3.0f, 10.0f);
 			rb.AddForce (new Vector2 (power_x, power_y) * 800);
+		}
+	}
+
+	// 
+	void addDownForce ()
+	{
+		foreach (GameObject obj in objectList) {
+			Rigidbody2D rb = obj.GetComponent<Rigidbody2D> ();
+			float power_y = Random.Range (-3.0f, -10.0f);
+			rb.AddForce (new Vector2 (0, power_y) * 100);
 		}
 	}
 }
