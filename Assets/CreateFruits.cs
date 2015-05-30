@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 public class CreateFruits : MonoBehaviour
 {
+	//
+	//public Camera camera;
+
 	// ポーズ
 	public bool isPaused = false;
 	// 生成するプレファブのリスト
@@ -45,6 +48,17 @@ public class CreateFruits : MonoBehaviour
 	private GameObject currentObject; // current
 	private float fruits_distance; //  distance
 
+	// スキルゲージ
+	public GameObject skill_gauge;
+
+	//
+	public GameObject special_effect_particle;
+
+	//
+	private int deleteObjectCounter = 0; 
+	private int deleteGaugeCounter = 0;
+	private int deleteObjectMax =  50; 
+
 //	IEnumerator LateStart (float time)
 //	{
 //		yield return new WaitForSeconds (time);
@@ -57,19 +71,26 @@ public class CreateFruits : MonoBehaviour
 		gameTimer =  60.0f;
 		gameScore = 0;
 
-		DropBall (40); //フルーツを指定した数上から降らせる
-
-//		StartCoroutine (LateStart (0.1F));
+		StartCoroutine ("Wait", 40);
+		isPaused = false;
 	}
 
-	public void createFruits ()
-	{
-		DropBall (45); //フルーツを指定した数上から降らせる
-	}
-
+	//
+//	public void createFruits ()
+//	{
+//		DropBall (45); //フルーツを指定した数上から降らせる
+//	}
+	
 	// フルーツを生成する
 	void DropBall (int count)
 	{
+		//
+		StartCoroutine ("Wait", count);
+		isPaused = false;
+	}
+
+	//
+	IEnumerator Wait(int count) {
 		for (var i = 0; i < count; i++) {
 			// リストの中から一つをランダムで選択する
 			GameObject fruits = fruitsObjectList [Random.Range (0, fruitsListNum)];
@@ -79,9 +100,10 @@ public class CreateFruits : MonoBehaviour
 			GameObject obj = (GameObject)Instantiate (fruits, new Vector3 (pos_x, pos_y, 0), Quaternion.identity);
 			// リストに追加する
 			objectList.Add (obj);
+			//
+			yield return new WaitForSeconds(0.05f);
 		}
-
-		isPaused = false;
+		yield return null;
 	}
 
 	// フレーム毎に呼ばれる
@@ -126,6 +148,13 @@ public class CreateFruits : MonoBehaviour
 	{
 		// クリックした位置のオブジェクトを取得する
 		GameObject obj = GetCurrentHitObject ();
+
+		// タグをチェック
+		if(obj == null || obj.tag != "GameFruits"){
+			//firstObject = null;
+			return;
+		}
+
 		if (obj != null) {
 
 			//Debug.Log("name:" + obj.name);
@@ -152,6 +181,7 @@ public class CreateFruits : MonoBehaviour
 		}
 	}
 
+	//
 	void special1 (GameObject spObj) 
 	{
 		// 
@@ -189,11 +219,13 @@ public class CreateFruits : MonoBehaviour
 		reset ();
 	}
 
+	//
 	void colorChange (GameObject obj)
 	{
 		obj.GetComponent<SpriteRenderer> ().color = new Color (0.3f, 0.3f, 0.3f, 1.0f);
 	}
 
+	//
 	void colorReset ()
 	{
 		foreach (GameObject mObj in objectList) {
@@ -201,6 +233,7 @@ public class CreateFruits : MonoBehaviour
 		}
 	}
 
+	//
 	void OnDragEnd ()
 	{
 
@@ -208,7 +241,6 @@ public class CreateFruits : MonoBehaviour
 			// 全部削除
 			foreach (GameObject obj in removableObjectList) {
 				// 削除
-				//obj.transform.position.z = -5.0f;
 				GameObject effect = (GameObject)Instantiate (
 					effect2, 
 					new Vector3(obj.transform.position.x, obj.transform.position.y, -5.0f), 
@@ -232,20 +264,73 @@ public class CreateFruits : MonoBehaviour
 				// 削除した分を追加する
 				DropBall (removableObjectList.Count);
 			}
-
-		} else {
-//			foreach (GameObject obj in removableObjectList) {
-//				// 削除
-//				//obj.transform.localScale = new Vector3 (0.3f, 0.3f, 1.0f);
-//			}
 		}
 
 		//
 		reset ();
 	}
 
+	//
+	IEnumerator WaitAndPrint(float waitTime) {
+
+		deleteGaugeCounter = 0; //reset
+
+		List<GameObject> tmpList = new List<GameObject> ();
+		int n = 0;
+		isPaused = true; // 停止
+		//camera.backgroundColor = new Color(1, 0 , 0, 1);
+
+		//
+		foreach(GameObject obj in objectList){
+			if(obj.name.Contains("cut")){
+				//
+				Debug.Log("obj.name:" + obj.name);
+				tmpList.Add(obj);
+				n++;
+			}
+		}
+
+		//
+		foreach(GameObject obj in tmpList){
+			objectList.Remove (obj);
+			Destroy (obj);
+		}
+
+		// score
+		gameScore += 100 * n;
+		gameScoreText.text = gameScore.ToString ();
+
+		yield return new WaitForSeconds(waitTime);
+
+		DropBall (n);
+		isPaused = false; // 開始
+		//camera.backgroundColor = new Color(80/256f, 135/256f, 221/256f, 1.0f);
+	}
+
+	//
 	void reset () 
 	{
+		if (removableObjectList.Count >= 3) {
+			// 削除された総数
+			deleteObjectCounter += removableObjectList.Count;
+			deleteGaugeCounter += removableObjectList.Count;
+
+			// ゲージがマックスになった
+			if(deleteGaugeCounter >= deleteObjectMax){
+				deleteGaugeCounter = 0;
+				GameObject effect = (GameObject)Instantiate(special_effect_particle.gameObject, 
+				                                            special_effect_particle.transform.position, 
+				                                            Quaternion.identity);
+				Destroy (effect, 2.0f);
+				//StartCoroutine(WaitAndPrint(2.0F));
+			}
+
+			// ゲージを伸ばす
+			skill_gauge.transform.localScale = new Vector3 (0.02f * deleteGaugeCounter, 
+		                                               skill_gauge.transform.localScale.y, 
+		                                               skill_gauge.transform.localScale.z);
+		}
+
 		// score
 		gameScore += 100 * fib (removableObjectList.Count);
 		gameScoreText.text = gameScore.ToString ();
@@ -266,22 +351,26 @@ public class CreateFruits : MonoBehaviour
 	//
 	int fib (int n)
 	{
+		int p;
 		int f0;
 		int f1;
 		int f2;
-		
+
+		p = 0; 
 		f0 = 0;
 		f1 = 1;
 		f2 = 0;
 
-		while (f1<n) {
+		while (p<n) {
 			// フィボナッチ数の出力(n>0)
-			Debug.Log ("fib:" + f1);
+			 //Debug.Log ("fib:" + f1);
 			// フィボナッチ数の計算
 			f2 = f1 + f0;
 			// 変数の代入
 			f0 = f1;
 			f1 = f2;
+
+			p++;
 		}
 				 
 		return f2;
@@ -294,11 +383,22 @@ public class CreateFruits : MonoBehaviour
 
 		if (currentObject != null) {
 			// 最初のオブジェクトと名前が一致するか
-			if (currentObject.name != firstObject.name)
+			if (currentObject.name != firstObject.name){
 				return; // 一致しない
-			// 直前に追加したものと一致するか
-			if (currentObject == lastObject)
+			}
+
+			// 一つ前に追加したものと一致するか
+			if (removableObjectList.Count > 1 && currentObject == removableObjectList[removableObjectList.Count  -2]) {
+				//
+				PopToList();
 				return; // 直前のものと一致
+			}
+
+			// 直前に追加したものと一致するか
+			if (currentObject == lastObject) {
+				return; // 直前のものと一致
+			}
+
 			// すでに追加済みのものは無視
 			if (removableObjectList.Contains (currentObject))
 				return; // 追加済み
@@ -370,9 +470,19 @@ public class CreateFruits : MonoBehaviour
 	{
 		// color change
 		obj.GetComponent<SpriteRenderer> ().color = new Color (0.6f, 0.6f, 0.6f, 0.5f);
-
+			
 		lastObject = obj;
 		removableObjectList.Add (obj);
+	}
+
+	// リストから削除
+	void PopToList ()
+	{
+		// color change
+		removableObjectList[removableObjectList.Count - 1].GetComponent<SpriteRenderer> ().color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
+		removableObjectList.Remove (removableObjectList [removableObjectList.Count - 1]);
+		//
+		lastObject = removableObjectList [removableObjectList.Count - 1];
 	}
 
 	// 線を描画する

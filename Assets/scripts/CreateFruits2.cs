@@ -18,7 +18,7 @@ public class CreateFruits2 : MonoBehaviour
 	// 削除するGameObjectのリスト
 	private List<GameObject> removableObjectList = new List<GameObject> ();
 	// 現在選択中のGameObject
-	private string currentObjectName;  // name
+	//private string currentObjectName;  // name
 	private GameObject firstObject; // first
 	private GameObject lastObject; // last
 	private GameObject currentObject; // current
@@ -76,16 +76,9 @@ public class CreateFruits2 : MonoBehaviour
 				firstObject = obj; 
 				fruits_distance = obj.GetComponent<SpriteRenderer>().bounds.size.x * 1.05f;
 				Debug.Log("float:" + fruits_distance);
-				currentObjectName = firstObject.name;
+				//currentObjectName = firstObject.name;
 				// リストに追加
 				PushToList (obj);
-
-				// 対象のもの以外のカラーを変更
-//				foreach( GameObject mObj in objectList){
-//					if(mObj.name != currentObjectName){
-//						//colorChange(mObj);
-//					}
-//				}
 			}
 		}
 	}
